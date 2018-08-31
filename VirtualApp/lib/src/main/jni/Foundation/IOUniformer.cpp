@@ -693,24 +693,28 @@ void hook_dlopen(int api_level) {
             MSHookFunction(symbol, (void *) new_do_dlopen_V24,
                            (void **) &orig_do_dlopen_V24);
         }
-    } else if (api_level > 23) {
+        return;
+    } 
+    if (api_level > 23) {
         if (findSymbol("__dl__Z9do_dlopenPKciPK17android_dlextinfoPv", "linker",
                        (unsigned long *) &symbol) == 0) {
             MSHookFunction(symbol, (void *) new_do_dlopen_V24,
                           (void **) &orig_do_dlopen_V24);
         }
-    } else if (api_level >= 19) {
+        return;
+    }
+    if (api_level >= 19) {
         if (findSymbol("__dl__Z9do_dlopenPKciPK17android_dlextinfo", "linker",
                        (unsigned long *) &symbol) == 0) {
             MSHookFunction(symbol, (void *) new_do_dlopen_V19,
                           (void **) &orig_do_dlopen_V19);
         }
-    } else {
+        return;
+    } 
         if (findSymbol("__dl_dlopen", "linker",
                        (unsigned long *) &symbol) == 0) {
             MSHookFunction(symbol, (void *) new_dlopen, (void **) &orig_dlopen);
         }
-    }
 }
 
 
